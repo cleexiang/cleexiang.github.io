@@ -82,19 +82,19 @@ analytics:
 
 # Site Author
 author:
-  name             : "Your Name"
+  name             : "Cleexiang's Blog"
   avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : "I am an amazing person."
-  location         : "Somewhere"
-  email            :
+  bio              : "Sharing something about Objective-C, Swift and Hybrid apps development."
+  location         : "四川. 成都"
+  email            : "cleexiang@126.com"
   uri              :
-  bitbucket        :
+  bitbucket        : 
   codepen          :
   dribbble         :
   flickr           :
   facebook         :
   foursquare       :
-  github           :
+  github           : "cleexiang"
   gitlab           :
   google_plus      :
   keybase          :
@@ -108,7 +108,7 @@ author:
   tumblr           :
   twitter          :
   vine             :
-  weibo            :
+  weibo            : "cleexiang"
   xing             :
   youtube          : # "https://youtube.com/c/MichaelRoseDesign"
 
