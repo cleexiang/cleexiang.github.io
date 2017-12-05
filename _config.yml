@@ -82,7 +82,7 @@ analytics:
 
 # Site Author
 author:
-  name             : "Cleexiang's Blog"
+  name             : "Li Xiang"
   avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
   bio              : "Sharing something about Objective-C, Swift and Hybrid apps development."
   location         : "四川. 成都"
