@@ -6,7 +6,10 @@ date: 2018-01-04
 
 ---
 
-### 基本概念
+### 背景
+*由于近半年来的技术主要围绕着Cordova，ReactNative等跨平台技术，一方面为了深入理解其中的运行原理，一方面也是因为对大红大紫的前端技术越来越感兴趣，于是对iOS系统上的JavaScript相关的技术进行了一些更深入的研究*
+
+### JavaScriptCore中的基本概念
 
 #### <a name="https://developer.apple.com/documentation/javascriptcore/jsvirtualmachine">JSVirtualMachine</a>
 
@@ -45,5 +48,76 @@ NSDate       |     Date object
 NSBlock (1)   |   Function object (1)
   id (2)     |   Wrapper object (2)
 Class (3)    | Constructor object (3)
+
+#### 基本用法
+
+##### Objective-C调用Javascript
+
+```
+func objcToJs(_ number1: Int, _ number2: Int) -> Int32 {
+    // 声明一个JSContext对象
+    guard let ctx = JSContext() else { return 0}
+    // 定义一个js函数，这里的js代码也可以从js文件中读取
+    let js = "function add(a, b) { return a + b }"
+    _ = ctx.evaluateScript(js)
+    // 获取add函数对象
+    let jsValue = ctx.objectForKeyedSubscript("add")
+    // 调用函数add()
+    guard let result = jsValue?.call(withArguments: [number1, number2]).toInt32() else { return 0 }
+    return result
+}
+```
+
+##### Javascript调用Objective-C
+
+```
+func jsToObjc() {
+    // 声明一个JSContext对象
+    guard let ctx = JSContext() else { return }
+    // 定义一个兼容OC Block的swift闭包
+    let addfunction: @convention(block) (_ title: String) -> Void = { (title) in
+        print("called from " + title)
+    }
+    let callNativeBlock = unsafeBitCast(addfunction, to: AnyObject.self)
+    // 将Native的方法设置到Context中，
+    ctx.setObject(callNativeBlock, forKeyedSubscript: "callNativeBlock" as NSCopying & NSObjectProtocol);
+    //执行js代码，调用callNativeBlock方法
+    ctx.evaluateScript("callNativeBlock('js')")
+}
+```
+
+##### JSExport的使用
+
+```
+@objc protocol MovieJSExports: JSExport {
+    var title: String {get set}
+    var imageUrl: String{get set}
+    
+    static func movieWith(title: String, imageUrl: String) -> Movie
+}
+
+class Movie: NSObject, MovieJSExports {
+  
+  dynamic var title: String
+  dynamic var imageUrl: String
+  
+  init(title: String, imageUrl: String) {
+     self.title = title
+     self.imageUrl = imageUrl
+  }
+    
+  class func movieWith(title: String, imageUrl: String) -> Movie {
+     return Movie(title: title, imageUrl: imageUrl)
+  }
+}
+	
+```
+
+#### 总结
+****
+
+在对JavaScriptCore进一步研究之后，对这个神奇的框架有了更多更深的认识：
+
+* JavaScriptCore组件在整个Webkit框架中独立存在（除开JavaScriptCore，还有负责Dom渲染，CSS解析等组件），在之前，我们如果要做到Native和JS之间的交互，大多只能通过WebView中提供的方法来处理，这样最大的问题就是必须依赖WebView，然而JavaScriptCore的出现，让JS的运行环境完全独立出来，进而催生了ReactNative、JSPatch这些优秀开源框架的诞生。
 
 #### 未完待续。。。
