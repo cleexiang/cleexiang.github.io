@@ -1,7 +1,7 @@
 ---
 
 layout: single
-title: 2018-01-04-初识JavaScriptCore
+title: 初识JavaScriptCore
 date: 2018-01-04
 
 ---
