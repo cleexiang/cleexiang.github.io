@@ -32,8 +32,8 @@ category: iOS
 
 > JSExport是一个协议，实现该协议可以将Objective-C类中的方法，属性导出成JS代码。
 
-图一：对象传递规则
-![p1](https://koenig-media.raywenderlich.com/uploads/2016/02/javascriptcore.png)
+图一：对象传递规则，图片来自https://www.raywenderlich.com/124075/javascriptcore-tutorial
+![p1](../assets/image/javascriptcore.png)
 
 图二：JavaScript和Native之间的对象转换规则
 
@@ -89,11 +89,13 @@ func jsToObjc() {
 
 ##### JSExport的使用
 
+* 首先定义支持JSExport的协议，表明哪些属性和方法支持导出到JavaScript
+
 ```
+// 声明MovieJSExports协议
 @objc protocol MovieJSExports: JSExport {
     var title: String {get set}
     var imageUrl: String{get set}
-    
     static func movieWith(title: String, imageUrl: String) -> Movie
 }
 
@@ -106,12 +108,45 @@ class Movie: NSObject, MovieJSExports {
      self.title = title
      self.imageUrl = imageUrl
   }
-    
+  
   class func movieWith(title: String, imageUrl: String) -> Movie {
      return Movie(title: title, imageUrl: imageUrl)
   }
 }
 	
+```
+
+* 调用
+
+```
+func jsExportExample() {
+    // 声明一个JSContext对象
+    guard let ctx = JSContext() else { return }
+    // 将原生的Movie类添加到JSContext中
+    ctx.setObject(Movie.self, forKeyedSubscript: "Movie" as (NSCopying & NSObjectProtocol)!)
+    // 声明js方法mapToMovie()，调用原生的Movie的类方法
+    let js = "function mapToMovie(title, imageUrl) { return Movie.movieWithTitleImageUrl(title, imageUrl) }"
+    _ = ctx.evaluateScript(js)
+    let jsValue = ctx.objectForKeyedSubscript("mapToMovie")
+    // 调用js方法mapToMovie()，并传入参数
+    guard let movie = jsValue?.call(withArguments: ["电影名", "http://www.xxoo.com"]).toObject() as? Movie else {return}
+    // 获取经JSContext转换后的moview对象
+    print(movie.title, movie.imageUrl)
+}
+```
+
+#### 小技巧
+> 由于js中的console.log()在没法在xcode中打印信息，在调用js的时候调试参数很不方便，于是可以定义一个Native版的console.log()，就可以直接在js中打印信息了。
+
+```
+let consoleLog: @convention(block) (String) -> Void = { message in
+    print("console.log: " + message)
+}
+
+\\ 调用
+let consoleLogBlock = unsafeBitCast(consoleLog, to: AnyObject.self)
+ctx.setObject(consoleLogBlock, forKeyedSubscript: "consoleLog" as NSCopying & NSObjectProtocol)
+ctx.evaluateScript("consoleLog('helloworld')")
 ```
 
 #### 总结
@@ -121,4 +156,6 @@ class Movie: NSObject, MovieJSExports {
 
 * JavaScriptCore组件在整个Webkit框架中独立存在（除开JavaScriptCore，还有负责Dom渲染，CSS解析等组件），在之前，我们如果要做到Native和JS之间的交互，大多只能通过WebView中提供的方法来处理，这样最大的问题就是必须依赖WebView，然而JavaScriptCore的出现，让JS的运行环境完全独立出来，进而催生了ReactNative、JSPatch这些优秀开源框架的诞生。
 
-#### 未完待续。。。
+#### 参考资料
+* [https://www.raywenderlich.com/124075/javascriptcore-tutorial](https://www.raywenderlich.com/124075/javascriptcore-tutorial)
+* [https://developer.apple.com/documentation/javascriptcore](https://developer.apple.com/documentation/javascriptcore)
