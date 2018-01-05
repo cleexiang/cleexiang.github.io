@@ -33,7 +33,7 @@ category: iOS
 > JSExport是一个协议，实现该协议可以将Objective-C类中的方法，属性导出成JS代码。
 
 图一：对象传递规则，图片来自https://www.raywenderlich.com/124075/javascriptcore-tutorial
-![p1](../assets/image/javascriptcore.png)
+![p1](/assets/image/javascriptcore.png)
 
 图二：JavaScript和Native之间的对象转换规则
 

@@ -13,7 +13,7 @@ title                    : "Cleexiang's Blog"
 title_separator          : "-"
 name                     : "Mr. Li"
 description              : "Sharing something about Objective-C, Swift and Hybrid apps development."
-url                      : # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
+url                      : "https://cleexiang.github.io" # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : # the subpath of your site, e.g. "/blog"
 repository               : # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
 teaser                   : # path of fallback teaser image, e.g. "/assets/images/500x300.png"
@@ -216,6 +216,10 @@ category_archive:
 tag_archive:
   type: liquid
   path: /tags/
+collections:
+  portfolio:
+    output: true
+    permalink: /:collection/:path/
 # https://github.com/jekyll/jekyll-archives
 # jekyll-archives:
 #   enabled:
