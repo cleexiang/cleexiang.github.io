@@ -12,7 +12,7 @@ locale                   : "zh_CN"
 title                    : "Cleexiang's Blog"
 title_separator          : "-"
 name                     : "Mr. Li"
-description              : "Sharing something about iOS development.Learning React-Native, Flutter, PWA"
+description              : "Sharing something about iOS development.Learning React-Native,Flutter,PWA."
 url                      : "https://cleexiang.github.io" # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : # the subpath of your site, e.g. "/blog"
 repository               : # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
@@ -84,7 +84,7 @@ analytics:
 author:
   name             : "Li Xiang"
   avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : "Sharing something about Objective-C, Swift and Hybrid apps development."
+  bio              : "Sharing something about iOS development.Learning React-Native,Flutter,PWA."
   location         : "四川. 成都"
   email            : "cleexiang@126.com"
   uri              :
