@@ -25,4 +25,5 @@ date: 2017-06-14
 * *如果忘记Admin初始密码*
 	 * 查看文件 ~/.jenkins/secrets/initialAdminPassword
 * *xcodebuild 打包失败*
-	 * 执行打包前执行 security create-keychain -p "password" "~/Library/Keychains/login.keychain-db"
+	 * 执行打包前执行 security unlock-keychain -p password /Users/username/Library/Keychains/Login.keychain
+	 * Mac Sierra中在Keychains下面是没有Login.keychain的，新的名字被改成了Login.keychain-db.所以需要做一个软连接ln -s ~/Library/Keychains/login.keychain-db ~/Library/Keychains/login.keychain
